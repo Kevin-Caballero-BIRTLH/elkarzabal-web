@@ -1,13 +1,12 @@
 var guardado = localStorage.getItem('pedido');
 var order = JSON.parse(guardado)
 var createOrder = []
-const URL = "http://localhost:3000/api/";
+
 
 
 function confirm() {
-    console.log(order)
     for (i in order) {
-        var id = order[i].id
+        var id = order[i].weeklyProductID
         var quantity = order[i].cantidad
         var orderUnit = {
             "weeklyProductId": id,
@@ -16,7 +15,6 @@ function confirm() {
         createOrder.push(orderUnit)
     }
     var orderProducts = createOrder
-
     $.ajax({
         method: "POST",
         url: URL + "order",
@@ -26,7 +24,7 @@ function confirm() {
         success: function (data) {
             alert("Pedido realizado correctamente")
             localStorage.removeItem('pedido')
-
+            window.location.replace('./pedido.html');
         },
         error: function (e) {
             alert("Revise su pedido")

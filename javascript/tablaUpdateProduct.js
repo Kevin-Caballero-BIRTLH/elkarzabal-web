@@ -2,17 +2,14 @@
 
 productos = []
 var productos
-const URL = "http://localhost:3000/api/"
-
 
 function updateProduct(id) {
-    window.open("./updateForm.html?id=" + id)
+    window.location.replace("./updateForm.html?id=" + id);
+
 }
 
 function deleteProduct(id) {
-    console.log(productos[i].name)
     var deleteID = 0
-    console.log(deleteID)
     //conseguir id imagen del producto a borrar
     $.ajax({
         async: false,
@@ -20,7 +17,6 @@ function deleteProduct(id) {
         type: 'GET',
         headers: { "Authorization": "Bearer " + localStorage.getItem('token') },
         success: function (data) {
-            console.log(data.images[0].id)
             deleteID = data.images[0].id;
         }
         ,
@@ -49,8 +45,8 @@ function deleteProduct(id) {
         type: 'DELETE',
         headers: { "Authorization": "Bearer " + localStorage.getItem('token') },
         success: function () {
-            alert(productos[i].name + " borrado"),
-                location.reload()
+            alert("producto borrado")
+            location.reload()
         },
         error: function () {
             alert("Revisa tu conexión");
@@ -79,7 +75,7 @@ $(document).ready(function () {
         id: "tabla"
     });
 
-    var tr = $("<tr><th id='cProducto'>Imagen</th><th id='cProducto'>Producto</th><th id='cDescripcion'>Descripción</th><th id='cPrecio'>Unidad de medida</th><th id='cPrecio'>Modificar</th><th id='cPrecio'>Eliminar</th>");
+    var tr = $("<tr><th id='cImg'>Imagen</th><th id='cProducto'>Producto</th><th id='cDescripcion'>Descripción</th><th id='cPrecio'>Unidad de medida</th><th id='cPrecio'>Modificar</th><th id='cPrecio'>Eliminar</th>");
     tr.attr({
         id: "columnas"
     });
@@ -90,8 +86,8 @@ $(document).ready(function () {
     for (i in productos) {
         var productID = productos[i].id
         var imagen = productos[i].images[0]
-        var tr2 = $("<tr><td>"
-            + '<img id="imgListProd" src="' + imagen + '" alt="Girl in a jacket" width="100" height="100"></img>' + "</td><td>"
+        var tr2 = $("<tr><td id='tdImg'>"
+            + '<img id="imgListProd" src="' + imagen + '" alt="Girl in a jacket" width="50" height="50"></img>' + "</td><td>"
             + productos[i].name + "</td><td>"
             + productos[i].description + "</td><td>"
             + productos[i].measurementUnit + "</td><td>"

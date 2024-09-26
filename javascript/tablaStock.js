@@ -2,7 +2,7 @@
 
 productos = []
 var productos
-const URL = "http://localhost:3000/api/"
+
 
 function addBBDD(id, stock, price) {
     $.ajax({
@@ -11,9 +11,6 @@ function addBBDD(id, stock, price) {
         headers: { "Authorization": "Bearer " + localStorage.getItem('token') },
         data: JSON.stringify({ "productId": id, "maxQuantity": stock, "price": price }),
         contentType: "application/json",
-        success: function (data) {
-            alert("añadido correctamente")
-        },
         error: function (e) {
             alert("se ha producido un error")
         }
@@ -22,18 +19,16 @@ function addBBDD(id, stock, price) {
 
 
 function update() {
-    //console.log("hola")
 
+    var checks = document.getElementsByClassName("chk")
 
-    var tab = document.getElementById("tabla");
-    var rows = tab.rows;
-
-    for (var i = 1; i < rows.length; i++) {// recorre las filas de la tabla
-        var tag = "chk" + i;
-        var idTag = "id" + i;
-        var stockTag = "cantidad" + i;
-        var priceTag = "precio" + i;
-        if (document.getElementById(tag).checked) {
+    for (var j = 0; j < checks.length; j++) {
+        if (checks[j].checked == true) {
+            var id = checks[j].id
+            id = id.substring(3)
+            var idTag = "id" + id;
+            var stockTag = "cantidad" + id;
+            var priceTag = "precio" + id;
             var id = document.getElementById(idTag).value;
             var intID = parseInt(id);
             var stock = document.getElementById(stockTag).value;
@@ -43,8 +38,26 @@ function update() {
             addBBDD(intID, numberStock, numberPrice)
         }
     }
+    alert("añadido correctamente")
 }
 
+/*for (var i = 1; i < rows.length; i++) {// recorre las filas de la tabla
+    var tag = "chk" + i;
+    var idTag = "id" + i;
+    var stockTag = "cantidad" + i;
+    var priceTag = "precio" + i;
+    if (document.getElementById(tag).checked) {
+        var id = document.getElementById(idTag).value;
+        var intID = parseInt(id);
+        var stock = document.getElementById(stockTag).value;
+        var numberStock = parseFloat(stock);
+        var price = document.getElementById(priceTag).value;
+        var numberPrice = parseFloat(price)
+        addBBDD(intID, numberStock, numberPrice)
+    }
+}
+}
+*/
 
 $.ajax({
     async: false,
@@ -80,8 +93,8 @@ $(document).ready(function () {
         var productID = productos[i].id
         var imagen = productos[i].images[0]
         var tr2 = $("<tr><td>"
-            + '<input type="checkbox" id="chk' + productID + '"> </td><td>'
-            + '<img src="' + imagen + '" alt="Girl in a jacket" width="100" height="100"></img>' + "</td><td>"
+            + '<input class = "chk"type="checkbox" id="chk' + productID + '"> </td><td>'
+            + '<img src="' + imagen + '" alt="Girl in a jacket" class = "imgWeek" width="50" height="50"></img>' + "</td><td>"
             + productos[i].name + "</td><td>"
             + productos[i].measurementUnit + "</td><td>"
             + '<input type="Text" id="cantidad' + productID + '" value="">' + "</td><td>"
